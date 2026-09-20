@@ -145,7 +145,8 @@ def compute_lfmm_minority(g_agg: ig.Graph, partition_gt: np.ndarray) -> float:
         comm_v = partition_gt[v]
         
         if u == v:
-            M[u, comm_u] += w * 0.5
+            # Aggregation stores each internal edge once; count both endpoints.
+            M[u, comm_u] += 2 * w
         else:
             M[u, comm_v] += w
             M[v, comm_u] += w
